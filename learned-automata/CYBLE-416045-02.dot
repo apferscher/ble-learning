@@ -32,4 +32,3 @@ s2 -> s2  [label="feature_req/BTLE/BTLE_CTRL/BTLE_DATA/LL_FEATURE_RSP"];
 __start0 [label="", shape=none];
 __start0 -> s0  [label=""];
 }
-L

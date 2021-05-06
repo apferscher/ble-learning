@@ -101,4 +101,3 @@ s10 -> s5  [label="pairing_req/BTLE/BTLE_DATA/L2CAP_Hdr/SM_Failed/SM_Hdr"];
 __start0 [label="", shape=none];
 __start0 -> s0  [label=""];
 }
-C
