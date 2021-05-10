@@ -34,7 +34,7 @@ This repository contains the supplemental material to the paper 'Fingerprinting 
 
     **Flashing:** You can use the programmer tool of the [nRF Connect for Desktop](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop) application to flash the provided firmware on the [Nordic nRF52840 Dongle](https://github.com/apferscher/ble-learning/blob/main/firmware/nRF52840_dongle_firmware.hex) or [Nordic nRF52840 Development Kit](https://github.com/apferscher/ble-learning/blob/main/firmware/nrf52840_dk_firmware.hex).
 
-    For the development kit you first have to write the [s140_nrf52_6.1.1_softdevice](https://github.com/apferscher/ble-learning/blob/main/firmware/s140_nrf52_6.1.1_softdevice.hex.hex) file and then the [nrf52840_dk_firmware](https://github.com/apferscher/ble-learning/blob/main/firmware/nrf52840_dk_firmware.hex).
+    For the development kit you first have to write the [s140_nrf52_6.1.1_softdevice](https://github.com/apferscher/ble-learning/blob/main/firmware/s140_nrf52_6.1.1_softdevice.hex) file and then the [nrf52840_dk_firmware](https://github.com/apferscher/ble-learning/blob/main/firmware/nrf52840_dk_firmware.hex).
 
     The firmware is taken from the [SweynTooth project](https://github.com/Matheus-Garbelini/sweyntooth_bluetooth_low_energy_attacks).
 
