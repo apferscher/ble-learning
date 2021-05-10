@@ -2,7 +2,7 @@ import serial
 
 from colorama import Fore
 
-from scapy.utils import raw
+from scapy.compat import raw
 
 ###
 # The code used in this file is copied from the SweynTooth project:
