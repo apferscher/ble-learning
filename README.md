@@ -31,7 +31,38 @@ This repository contains the supplemental material to the paper 'Fingerprinting 
 ### Prerequisites
 
 1. Nordic nRF52840 Dongle or Development Kit flashed with corresponding firmware
-2. Python libraries [Scapy >=v2.4.5]() and [Aalpy >=1.0.1]()
+
+    **Flashing:** You can use the programmer tool of the [nRF Connect for Desktop](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop) application to flash the provided firmware on the [Nordic nRF52840 Dongle](https://github.com/apferscher/ble-learning/blob/main/firmware/nRF52840_dongle_firmware.hex) or [Nordic nRF52840 Development Kit](https://github.com/apferscher/ble-learning/blob/main/firmware/nrf52840_dk_firmware.hex).
+
+    The firmware is taken from the [SweynTooth project](https://github.com/Matheus-Garbelini/sweyntooth_bluetooth_low_energy_attacks).
+
+2. Python 3
+
+3. Python libraries [Scapy >=v2.4.5](https://github.com/secdev/scapy), [Aalpy >=1.0.1](https://github.com/DES-Lab/AALpy) and [Colorama](https://pypi.org/project/colorama/)
+
+    **Requirements installation:** 
+
+    ```bash
+    sudo pip3 install -r requirements.txt
+    ```
+
+### Experiment Execution
+
+The learning procedure of a Bluetooth Low Energy (BLE) device can be executed via ([ble_learning.py](https://github.com/apferscher/ble-learning/blob/main/ble_learning.py)). The program requires the serial port name of the nRF52 device and the BLE address of the peripheral device (advertiser) that should be learned.
+
+    python3 ble_learning.py <serial_port> <advertiser_address>
+
+Example:
+
+    python3 ble_learning.py /dev/ttyACM0 00:A0:50:00:00:03
+
+The program outputs after a successful learning procedure the learning results and the learned model is saved in the file ` LearnedModel.dot`. 
 
 
-The firmware is taken from the [SweynTooth project](https://github.com/Matheus-Garbelini/sweyntooth_bluetooth_low_energy_attacks).
+## Acknowledgement
+- [SweynTooth](https://github.com/Matheus-Garbelini/sweyntooth_bluetooth_low_energy_attacks): nRF52 driver, firmware and code snippets for BLE package construction
+- [AALpy](https://github.com/DES-Lab/AALpy): active automata learning library
+- [Scapy](https://github.com/secdev/scapy): BLE package parsing and composition
+- [Colorama](https://github.com/secdev/scapy): colored terminal text
+
+
