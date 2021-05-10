@@ -8,15 +8,15 @@ from util import print_error_info
 serial_port = '/dev/tty.usbmodem141101'
 #advertiser_address = 'CC:78:AB:71:5C:85' # TI LAUNCHXL-CC2650
 #advertiser_address = '0C:61:CF:A0:95:8F' # TI LAUNCHXL-CC264CR2
-advertiser_address = 'f6:a8:63:cd:b7:d4' # dwm 1001
+#advertiser_address = 'f6:a8:63:cd:b7:d4' # dwm 1001
 #advertiser_address = 'dc:a6:32:4b:59:61' # raspberry pi 4
-#advertiser_address = '00:A0:50:00:00:03' # Cypress CY8CPROTO-063
+advertiser_address = '00:A0:50:00:00:03' # Cypress CY8CPROTO-063
 
 #file = 'TI-LAUNCHXL-CC2650'
 #file = 'TI-LAUNCHXL-CC264CR2-without-length-request'
-file = 'dwm-1001'
+#file = 'dwm-1001'
 #file = 'raspberrypi-4'
-#file = 'Cypress-CY8CPROTO-063'
+file = 'Cypress-CY8CPROTO-063'
 
 ble_sul = BLESUL(serial_port, advertiser_address)
 

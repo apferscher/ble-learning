@@ -1,4 +1,4 @@
-digraph "CC264CR2-no-pairing-req" {
+digraph "CC2640R2-no-pairing-req" {
 s0 [label=s0];
 s1 [label=s1];
 s2 [label=s2];
@@ -22,7 +22,7 @@ s1 -> s2  [label="version_req/BTLE/BTLE_DATA"];
 s1 -> s1  [label="mtu_req/ATT_Exchange_MTU_Response/ATT_Hdr/BTLE/BTLE_DATA/L2CAP_Hdr"];
 s1 -> s1  [label="feature_req/BTLE/BTLE_CTRL/BTLE_DATA/LL_FEATURE_RSP"];
 s2 -> s0  [label="scan_req/Adv"];
-s2 -> s1  [label="connectio_req/BTLE/BTLE_CTRL/BTLE_DATA/LL_LENGTH_REQ"];
+s2 -> s1  [label="connection_req/BTLE/BTLE_CTRL/BTLE_DATA/LL_LENGTH_REQ"];
 s2 -> s2  [label="length_req/BTLE/BTLE_CTRL/BTLE_DATA/LL_LENGTH_RSP"];
 s2 -> s5  [label="length_rsp/BTLE/BTLE_CTRL/BTLE_DATA/LL_VERSION_IND"];
 s2 -> s2  [label="feature_rsp/BTLE/BTLE_DATA"];

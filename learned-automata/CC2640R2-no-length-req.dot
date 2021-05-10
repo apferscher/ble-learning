@@ -1,4 +1,4 @@
-digraph "CC264CR2-no-length-req" {
+digraph "CC2640R2-no-length-req" {
 s0 [label=s0];
 s1 [label=s1];
 s2 [label=s2];
