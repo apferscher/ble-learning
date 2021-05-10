@@ -18,5 +18,4 @@ Connection errors:  913
 Non-determinism in learning: 1
 Non-determinism in equivalence check: 0
 -----------------------------------
-Visualization started in the background thread.
 
