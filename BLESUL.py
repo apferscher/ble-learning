@@ -17,10 +17,10 @@ class BLESUL(SUL):
 
     def __init__(self, serial_port, advertiser_address):
         super().__init__()
-        self.driver = NRF52(serial_port, debug=False)
+        self.driver = NRF52(serial_port, debug=False, logs_pcap=constant.LOG_PCAP)
 
         self.slave_addr_type = 0
-        self.master_address = '00:00:00:00:00:00' #'5d:36:ac:90:0b:22'
+        self.master_address = '5d:36:ac:90:0b:22'
         self.access_address = 0x9a328370
         self.advertiser_address = advertiser_address
         self.connection_error_counter = 0
@@ -315,3 +315,6 @@ class BLESUL(SUL):
             return outputs
 
         raise ConnectionError()
+    
+    def save_pcap(self, pcap_filename):
+        self.driver.save_pcap(pcap_filename)

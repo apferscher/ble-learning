@@ -1,4 +1,5 @@
 import sys
+import constant
 from BLESUL import BLESUL
 from FailSafeLearning.StatePrefixEqOracleFailSafe import StatePrefixOracleFailSafe
 from FailSafeLearning.FailSafeCacheSUL import FailSafeCacheSUL
@@ -9,10 +10,17 @@ from util import print_error_info
 args_len = len(sys.argv) - 1
 
 if args_len < 2:
-    sys.exit("Too few arguments provided.\nUsage: python3 ble_learning.py 'serial_port' 'advertiser_address'")
+    sys.exit("Too few arguments provided.\nUsage: python3 ble_learning.py 'serial_port' 'advertiser_address', ['pcap_filename']")
 
 serial_port = sys.argv[1]
 advertiser_address = sys.argv[2]
+
+if args_len == 3:
+    pcap_filename = sys.argv[3]
+else:
+    pcap_filename = 'learning_data'
+
+pcap_filename += '.pcap'
 
 ble_sul = BLESUL(serial_port, advertiser_address)
 
@@ -32,6 +40,10 @@ learned_model = run_Lstar(alphabet, sul, eq_oracle, automaton_type='mealy',cache
 
 # prints number of connection and non-deterministic errors
 print_error_info(ble_sul, sul)
+
+#save pcap file of sent and received packages during learning
+if constant.LOG_PCAP:
+    ble_sul.save_pcap(pcap_filename)
 
 # visualize the automaton
 visualize_automaton(learned_model, file_type='dot')
