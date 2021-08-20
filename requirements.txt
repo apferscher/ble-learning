@@ -1,3 +1,4 @@
 aalpy
 scapy>=2.4.5
 colorama
+pyserial
