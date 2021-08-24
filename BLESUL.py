@@ -78,7 +78,7 @@ class BLESUL(SUL):
         base_data = {"BTLE", "BTLE_DATA"}
         return len(received_data) > 0 and (base_data != received_data)
     
-    def receive_data(self, min_attempts=20, max_attempts=30):
+    def receive_data(self, min_attempts=40, max_attempts=60):
         """
         receives data from the peripheral. The attempt to receive data 
         is repeated at least min_attempts, but at maximum max_attempts
@@ -212,6 +212,11 @@ class BLESUL(SUL):
         pairing_req = BTLE(access_addr=self.access_address) / BTLE_DATA() / L2CAP_Hdr() / SM_Hdr() / SM_Pairing_Request(iocap=0x04, oob=0, authentication= 0x08 | 0x40 | 0x01, max_key_size=16, initiator_key_distribution=0x07, responder_key_distribution=0x07)
         self.driver.send(pairing_req)
         return self.receive_data()
+    
+    def termination_indication(self):
+        pkt = BTLE(access_addr=self.access_address) / BTLE_DATA() / BTLE_CTRL() / LL_TERMINATE_IND()
+        self.driver.send(pkt)
+        return self.receive_data()
 
     def keep_alive_connection(self):
         """
@@ -230,6 +235,7 @@ class BLESUL(SUL):
         
         if error_counter >= constant.CONNECTION_ERROR_ATTEMPTS and output == constant.ERROR:
             raise ConnectionError()
+            
     
     def default(self):
         return "invalid input provided"
@@ -241,12 +247,20 @@ class BLESUL(SUL):
         """
         self.scan_req(min_attempts=5, max_attempts=100)
         self.keep_alive_connection()
+        termination_output = self.termination_indication()
+        if termination_output != self.EMPTY:
+            print(Fore.YELLOW + "WARNING: Connection was not properly reset.")
+
+
 
     def post(self):
         """
         sends keep alive message to avoid that peripheral enters standby state 
         """
         self.keep_alive_connection()
+        termination_output = self.termination_indication()
+        if termination_output != self.EMPTY:
+            print(Fore.YELLOW + "WARNING: Connection was not properly reset.")
 
 
     def step(self, letter):
