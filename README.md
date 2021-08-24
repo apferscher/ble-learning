@@ -44,7 +44,7 @@ This repository provides a framework that learns the behavioral model of a black
 
 2. Python 3
 
-3. Python libraries [Scapy >=v2.4.5](https://github.com/secdev/scapy), [Aalpy >=1.0.1](https://github.com/DES-Lab/AALpy) and [Colorama](https://pypi.org/project/colorama/)
+3. Python libraries [pySerial](https://github.com/pyserial/pyserial), [Scapy >=v2.4.5](https://github.com/secdev/scapy), [Aalpy >=1.0.1](https://github.com/DES-Lab/AALpy) and [Colorama](https://pypi.org/project/colorama/)
 
     **Requirements installation:** 
 
