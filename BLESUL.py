@@ -245,11 +245,18 @@ class BLESUL(SUL):
         resets the peripheral including a keep alive message to avoid that 
         peripheral enters standby state
         """
-        self.scan_req(min_attempts=5, max_attempts=100)
-        self.keep_alive_connection()
-        termination_output = self.termination_indication()
-        if termination_output != self.EMPTY:
-            print(Fore.YELLOW + "WARNING: Connection was not properly reset.")
+        reset = ''
+        error_counter = 0
+        while(reset != self.EMPTY and error_counter <= constant.CONNECTION_ERROR_ATTEMPTS):
+            self.scan_req(min_attempts=5, max_attempts=100)
+            self.keep_alive_connection()
+            reset = self.termination_indication()
+            if reset != self.EMPTY:
+                error_counter += 1
+                print(Fore.YELLOW + "WARNING: Connection was not properly reset.")
+        if error_counter >= constant.CONNECTION_ERROR_ATTEMPTS and reset != self.EMPTY:
+            raise ConnectionError()
+
 
 
 
@@ -257,10 +264,17 @@ class BLESUL(SUL):
         """
         sends keep alive message to avoid that peripheral enters standby state 
         """
-        self.keep_alive_connection()
-        termination_output = self.termination_indication()
-        if termination_output != self.EMPTY:
-            print(Fore.YELLOW + "WARNING: Connection was not properly reset.")
+        reset = ''
+        error_counter = 0
+        while(reset != self.EMPTY and error_counter <= constant.CONNECTION_ERROR_ATTEMPTS):
+            self.keep_alive_connection()
+            reset = self.termination_indication()
+            if reset != self.EMPTY:
+                error_counter += 1
+                print(Fore.YELLOW + "WARNING: Connection was not properly reset.")
+        
+        if error_counter >= constant.CONNECTION_ERROR_ATTEMPTS and reset != self.EMPTY:
+            raise ConnectionError()
 
 
     def step(self, letter):
