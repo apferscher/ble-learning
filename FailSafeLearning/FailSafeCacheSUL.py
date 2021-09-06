@@ -5,7 +5,7 @@ from aalpy.base.CacheTree import CacheTree
 from time import sleep
 
 ###
-# The code used in this file is copied from the SweynTooth project:
+# The code used in this file is copied from the AALpy project:
 # https://github.com/DES-Lab/AALpy
 #
 # Following file/class has been copied:
