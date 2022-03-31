@@ -1,11 +1,13 @@
 import constant
 from colorama import Fore
 from aalpy.base import SUL
-from aalpy.base.CacheTree import CacheTree
-from time import sleep
+from FailSafeLearning.CacheTree import CacheTree
+import time
+from FailSafeLearning.Errors import NonDeterministicError, RepeatedNonDeterministicError, TableError
+from FailSafeLearning.FailSafeSUL import FailSafeSUL
 
 ###
-# The code used in this file is copied from the AALpy project:
+# The code used in this file is copied from the SweynTooth project:
 # https://github.com/DES-Lab/AALpy
 #
 # Following file/class has been copied:
@@ -23,12 +25,14 @@ class FailSafeCacheSUL(SUL):
     System under learning that keeps a multiset of all queries in memory.
     This multiset/cache is encoded as a tree.
     """
-    def __init__(self, sul: SUL):
+    def __init__(self, sul: FailSafeSUL):
         super().__init__()
         self.sul = sul
-        self.cache = CacheTree()
+        self.cache = CacheTree(constant.NON_DET_CACHE_SIZE)
         self.non_det_query_counter = 0
         self.non_det_step_counter = 0
+        self.reset_time = 0
+        self.physical_reset = 0
 
     def query(self, word):
         """
@@ -53,24 +57,42 @@ class FailSafeCacheSUL(SUL):
         attempts = 0
         while attempts < constant.NON_DET_ERROR_ATTEMPTS:
             try:
-                # get outputs using default query method
-                out = self.sul.query(word)
-                self.num_queries += 1
-                self.num_steps += len(word)
-            
-                # add input/outputs to tree
-                self.cache.reset()
-                for i, o in zip(word, out):
-                        self.cache.step_in_cache(i, o)
-                        
-                return out
-            except SystemExit:
-                    attempts += 1
-                    print(Fore.RED + "Non-determinism in query execution detected.")
-                    self.non_det_query_counter += 1
-                    self.sul.post()
-                    if attempts == constant.NON_DET_ERROR_ATTEMPTS:
+                non_det_update = 0
+                while non_det_update < constant.NON_DET_CACHE_SIZE:
+                    try: 
+                        # get outputs using default query method
+                        out = self.sul.query(word)
+                        self.num_queries += 1
+                        non_det_update += 1
+                        self.num_steps += self.sul.performed_steps_in_query
+                        # add input/outputs to tree
+                        self.cache.reset()
+                        for i, o in zip(word, out):
+                                self.cache.step_in_cache(i, o)
+                        non_det_update = constant.NON_DET_CACHE_SIZE
+                        return out
+                    except NonDeterministicError:
+                        continue
+                    except TableError:
                         raise
+            except RepeatedNonDeterministicError as exp:
+                    attempts += 1
+                    print(exp)
+                    print(Fore.RED + "Repeated non-determinism in output query execution detected.")
+                    self.non_det_query_counter += 1
+                    if attempts == constant.NON_DET_ERROR_ATTEMPTS:
+                        start_time  = time.time()
+                        inp = input("Repeated non-deterministic error! Cancel execution with 'c'. Otherwise, reset the device and press any other key.")
+                        if inp == 'c' or inp == 'C':
+                            self.sul.post()
+                            raise
+                        else:
+                            self.reset_time += (time.time() - start_time)
+                            self.physical_reset += 1
+                            self.cache.non_det_node.updateDetCache = True
+                            self.cache.non_det_node.nonDetCache = [] 
+                            attempts = 0
+                            self.sul.post()
 
 
     def pre(self):
@@ -99,7 +121,7 @@ class FailSafeCacheSUL(SUL):
         out = self.sul.step(letter)
         try:
             self.cache.step_in_cache(letter, out)
-        except SystemExit:
+        except RepeatedNonDeterministicError:
             print(Fore.RED + "Non-determinism in step execution detected.")
             self.non_det_step_counter += 1
             raise

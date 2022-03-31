@@ -1,8 +1,11 @@
 import serial
-
+import colorama
+#import binascii
 from colorama import Fore
-
 from scapy.compat import raw
+from scapy.utils import wrpcap
+from BLEAdapter.NordicPkt import NORDIC_BLE
+from scapy.layers.bluetooth4LE import BTLE
 
 ###
 # The code used in this file is copied from the SweynTooth project:
@@ -14,6 +17,7 @@ from scapy.compat import raw
 # Minor adaptions to the existing code have been made:
 # -- Adaptions for python3 usage  
 # -- Removal of functionalities that are no longer required
+# -- "save_pcap": adding parameter for logging filename
 #
 # Date of copy: 04/21/2021
 #
@@ -39,20 +43,22 @@ class NRF52:
     """
 
     n_debug = False
-    n_log = False
     event_counter = 0
     packets_buffer = []
     sent_pkt = None
+    logs_pcap = False
+    pcap_tx_handover = False
 
 
-    def __init__(self, port_name=None, baudrate=115200, debug=False, logs=True):
+    def __init__(self, port_name=None, baudrate=115200, debug=False, logs_pcap=False):
 
         if port_name is None:
             print(Fore.RED + 'No port name of nRF52840 provided!')
             
         self.serial = serial.Serial(port_name, baudrate, timeout=1)
-        self.n_log = logs
         self.n_debug = debug
+
+        self.logs_pcap = logs_pcap
 
         self.set_log_tx(0)
 
@@ -72,12 +78,20 @@ class NRF52:
             print(Fore.CYAN + 'Bytes sent: ' + data.hex().upper())
 
         return data
+    
+    def send(self, scapy_pkt, fuzzed=False, print_tx=True):
+        self.raw_send(raw(scapy_pkt))
+        if self.logs_pcap and self.pcap_tx_handover == 0:
+            self.packets_buffer.append(NORDIC_BLE(board=75, protocol=2, flags=0x3) / scapy_pkt)
+        if print_tx:
+            color = Fore.CYAN if not fuzzed else Fore.YELLOW 
+            print(color + "TX ---> " + scapy_pkt.summary())
 
     
-    def send(self, scapy_pkt, print_tx=True):
-        self.raw_send(raw(scapy_pkt))
-        if print_tx:
-            print(Fore.CYAN + "TX ---> " + scapy_pkt.summary()[7:])
+    def save_pcap(self, pcap_filename):
+        wrpcap(pcap_filename, self.packets_buffer)  # save packet just sent
+        # del self.packets_buffer
+        self.reset_packet_buffer()
 
     def raw_receive(self):
         c = self.serial.read(1)
@@ -94,22 +108,40 @@ class NRF52:
             if (sum(data) & 0xFF) == checksum:
                 # If the data received is correct
                 self.event_counter = evt_counter
-
+                
                 if c == NRF52_CMD_DATA_TX:
                     self.sent_pkt = data
-
+                    n_flags = 0x03
                     ret_data = None
                 else:  # Received packets
+                    n_flags = 0x01
                     ret_data = data
 
+                if self.logs_pcap is True and data != None:
+                    self.packets_buffer.append(NORDIC_BLE(board=75, protocol=2, flags=n_flags) / BTLE(data))
+
                 if self.n_debug:
-                    print(Fore.MAGENTA + "Received bytes: " + data.hex().upper())
+                    print("Hex: " + data.hex().upper())
 
                 return ret_data
+        # Receive logs from dongle
+        elif c == NRF52_CMD_LOG:
+            lb = ord(self.serial.read(1))
+            hb = ord(self.serial.read(1))
+            sz = lb | (hb << 8)
+            data = self.serial.read(sz)
+            if self.n_log:
+                print(data)
+        elif c == NRF52_CMD_CHECKSUM_ERROR:
+            print(Fore.RED + "NRF52_CMD_CHECKSUM_ERROR")
 
     def set_log_tx(self, value):
         data = NRF52_CMD_CONFIG_LOG_TX + bytearray([value])
         self.serial.write(data)
+        self.pcap_tx_handover = value
+
+    def reset_packet_buffer(self):
+        self.packets_buffer = []
     
 
 

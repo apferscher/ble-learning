@@ -1,10 +1,10 @@
 import sys
 import constant
 import resource
-from BLESUL import BLESUL
+from BLESULPairing import BLESULPairing
 from FailSafeLearning.StatePrefixEqOracleFailSafe import StatePrefixOracleFailSafe
 from FailSafeLearning.FailSafeCacheSUL import FailSafeCacheSUL
-from aalpy.learning_algs import run_Lstar
+from FailSafeLearning.LStar import run_Lstar
 from aalpy.utils import visualize_automaton
 from util import print_error_info
 
@@ -20,27 +20,22 @@ if args_len < 2:
 serial_port = sys.argv[1]
 advertiser_address = sys.argv[2]
 
-if args_len == 3:
-    pcap_filename = sys.argv[3]
-else:
-    pcap_filename = 'learning_data'
+physical_reset_str = ''
+physical_reset = False
 
-ble_sul = BLESUL(serial_port, advertiser_address)
+if args_len == 3:
+    filename = sys.argv[3]
+else:
+    filename = 'learning_data'
+
+pcap_filename = filename + '.pcap'
+
+ble_sul = BLESULPairing(serial_port, advertiser_address, physical_reset=True)
 
 # enable our fail safe caching
 sul = FailSafeCacheSUL(ble_sul)
 
-# define the input alphabet
-alphabet = ['scan_req', 'connection_req', 'length_req', 'length_rsp',  'feature_rsp', 'feature_req', 'version_req', 'mtu_req', 'pairing_req']
-
-# no pairing
-#alphabet = ['scan_req', 'connection_req', 'length_req', 'length_rsp',  'feature_rsp', 'feature_req', 'version_req', 'mtu_req']
-
-# no length
-# alphabet = ['scan_req', 'connection_req', 'length_rsp',  'feature_rsp', 'feature_req', 'version_req', 'mtu_req', 'pairing_req']
-
-# no feature
-# alphabet = ['scan_req', 'connection_req', 'length_req', 'length_rsp',  'feature_rsp', 'version_req', 'mtu_req', 'pairing_req']
+alphabet = ['legacy_pairing_req', 'sm_confirm', 'sm_random', 'll_enc_request', 'll_start_enc_response']
 
 
 # define a equivalence oracle
@@ -48,14 +43,17 @@ eq_oracle = StatePrefixOracleFailSafe(alphabet, sul, walks_per_state=10, walk_le
 
 # run the learning algorithm
 # internal caching is disabled, since we require an error handling for possible non-deterministic behavior
-learned_model = run_Lstar(alphabet, sul, eq_oracle, automaton_type='mealy',cache_and_non_det_check=False)
+learned_model = run_Lstar(alphabet, sul, eq_oracle, automaton_type='mealy',cache_and_non_det_check=False, print_level=3)
 
 # prints number of connection and non-deterministic errors
-print_error_info(ble_sul, sul)
+print_error_info(ble_sul, sul, eq_oracle)
+
+print('Reset time for connection errors: {}'.format(ble_sul.connection_physical_reset_time))
+print('Resets due to connection errors: {}'.format(ble_sul.connection_physical_reset))
 
 #save pcap file of sent and received packages during learning
 if constant.LOG_PCAP:
-    ble_sul.save_pcap(pcap_filename + '.pcap')
+    ble_sul.save_pcap(pcap_filename)
 
 # visualize the automaton
-visualize_automaton(learned_model, path=pcap_filename, file_type='dot')
+visualize_automaton(learned_model, path=filename, file_type='dot')
