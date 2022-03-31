@@ -1,4 +1,4 @@
-digraph "cc2640r2-32" {
+digraph "cc2640r2" {
 s0 [label=s0];
 s1 [label=s1];
 s2 [label=s2];

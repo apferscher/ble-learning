@@ -1,23 +1,24 @@
 -----------------------------------
 Learning Finished.
 Learning Rounds:  1
-Number of states: 5
+Number of states: 6
 Time (in seconds)
-  Total                : 7574.48
-  Learning algorithm   : 4428.15
-  Conformance checking : 3146.33
+  Total                : 1584.34
+  Learning algorithm   : 1016.29
+  Conformance checking : 568.05
 Learning Algorithm
- # Membership Queries  : 405
- # Steps               : 1459
+ # Membership Queries  : 384
+ # Steps               : 1474
 Equivalence Query
- # Membership Queries  : 50
- # Steps               : 580
+ # Membership Queries  : 61
+ # Steps               : 712
 -----------------------------------
 -----------------------------------
-Connection errors:  459
+Connection errors:  449
 Cached values updated: 0
-Queries performed to determine correct output (before update): 20
+Queries performed to determine correct output (before update): 2
 Non-determinism in learning (before update): 1
 Non-determinism in learning (after update): 0
 Non-determinism in equivalence check (after update): 0
 -----------------------------------
+

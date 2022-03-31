@@ -1,0 +1,25 @@
+-----------------------------------
+Learning Finished.
+Learning Rounds:  1
+Number of states: 11
+Time (in seconds)
+  Total                : 2417.47
+  Learning algorithm   : 1715.21
+  Conformance checking : 702.26
+Learning Algorithm
+ # Membership Queries  : 704
+ # Steps               : 3143
+Equivalence Query
+ # Membership Queries  : 111
+ # Steps               : 1371
+-----------------------------------
+-----------------------------------
+Connection errors:  821
+Cached values updated: 0
+Queries performed to determine correct output (before update): 40
+Non-determinism in learning (before update): 2
+Non-determinism in learning (after update): 0
+Non-determinism in equivalence check (after update): 0
+-----------------------------------
+Visualization started in the background thread.
+Model saved to CC2640R2-no-feature.dot.

@@ -1,4 +1,4 @@
-digraph "cyw43455-45" {
+digraph "cyw43455" {
 s0 [label=s0];
 s1 [label=s1];
 s2 [label=s2];
