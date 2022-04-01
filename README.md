@@ -13,10 +13,10 @@ This repository provides a framework that learns the behavioral model of a black
         - [CC2640R2](learned-automata/pairing-procedure/cc2640r2.dot) \[[PDF](learned-automata/pairing-procedure/pdfs/cc2640r2.pdf)\]
         - [CC2650](learned-automata/pairing-procedure/cc2650.dot) \[[PDF](learned-automata/pairing-procedure/pdfs/cc2650.pdf)\]
         - [CYW43455](learned-automata/pairing-procedure/cyw43455.dot) \[[PDF](learned-automata/pairing-procedure/pdfs/cyw43455.pdf)\]
-    - [CYBLE-416045-02](learned-automata/cyble-416045-02.dot) \[[PDF](learned-automata/pdfs/cyble-416045-02.pdf)\]
+    - [CYBLE-416045-02](learned-automata/CYBLE-416045-02.dot) \[[PDF](learned-automata/pdfs/cyble-416045-02.pdf)\]
     - [nRF52832](learned-automata/nRF52832.dot) \[[PDF](learned-automata/pdfs/nRF52832.pdf)\]
-    - [CC2650](learned-automata/cc2650.dot) \[[PDF](learned-automata/pdfs/cc2650.pdf)\]
-    - [CYW43455](learned-automata/cyw43455.dot) \[[PDF](learned-automata/pdfs/cyw43455.pdf)\]
+    - [CC2650](learned-automata/CC2650.dot) \[[PDF](learned-automata/pdfs/cc2650.pdf)\]
+    - [CYW43455](learned-automata/CYW43455.dot) \[[PDF](learned-automata/pdfs/cyw43455.pdf)\]
     - [CC2640R2 (no pairing request)](learned-automata/CC2640R2-no-pairing-req.dot) \[[PDF](learned-automata/pdfs/CC2640R2-no-pairing-req.pdf)\]
     - [CC2640R2 (no length request)](learned-automata/CC2640R2-no-length-req.dot) \[[PDF](learned-automata/pdfs/CC2640R2-no-length-req.pdf)\]
     - [CC2640R2 (no feature request)](learned-automata/CC2640R2-no-feature-req.dot) \[[PDF](learned-automata/pdfs/CC2640R2-no-feature-req.pdf)\]
@@ -28,11 +28,12 @@ This repository provides a framework that learns the behavioral model of a black
         - [CYW43455](learning-results/pairing-procedure/CYW43455.txt)
     - [CYBLE-416045-02](learning-results/cyble-416045-02.txt)
     - [nRF52832](learning-results/nRF52832.txt)
-    - [CC2650](learning-results/nRF52832.txt)
-    - [CYW43455](learning-results/cyw43455.txt)
+    - [CC2650](learning-results/CC2650.txt)
+    - [CYW43455](learning-results/CYW43455.txt)
     - [CC2640R2 (no pairing request)](learning-results/CC2640R2-no-pairing-req.txt)
     - [CC2640R2 (no length request)](learning-results/CC2640R2-no-length-req.txt)
     - [CC2640R2 (no feature request)](learning-results/CC2640R2-no-feature-req.txt)
+    - [CC2652R1](learning-results/cc2652r1.txt)
 - Firmware ([firmware/](firmware/))
     - [Nordic nRF52840 Dongle](firmware/nRF52840_dongle_firmware.hex)
     - Nordic nRF52840 Development Kit: [s140_nrf52_6.1.1_softdevice](firmware/s140_nrf52_6.1.1_softdevice.hex.hex) + [nrf52840_dk_firmware](firmware/nrf52840_dk_firmware.hex)
