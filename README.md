@@ -64,7 +64,7 @@ This repository provides a framework that learns the behavioral model of a black
     sudo pip3 install -r requirements.txt
     ```
 
-Only learning the pairing procedure the following the pairing procedure:
+Only required for the learning of the pairing procedure:
 
 4.  Installation of python3.9-dev:
     ```bash
@@ -79,7 +79,7 @@ Only learning the pairing procedure the following the pairing procedure:
 
 ### Experiment Execution
 
-The learning procedure of a Bluetooth Low Energy (BLE) device can be executed via ([ble_learning.py](https://github.com/apferscher/ble-learning/blob/main/ble_learning.py)). The program requires the serial port name of the nRF52 device and the BLE address of the peripheral device (advertiser) that should be learned.
+The learning procedure for learning the connection procedure of a Bluetooth Low Energy (BLE) device can be executed via ([ble_learning.py](ble_learning.py)). If you want to start learning after the connection request execute [ble_learning_connecting_start.py](ble_learning_connecting_start.py) instead. The learning of the pairing procedure can be started with [ble_learning_pairing.py](ble_learning_pairing.py). All programs require the serial port name of the nRF52 device and the BLE address of the peripheral device (advertiser) that should be learned.
 
     python3 ble_learning.py <serial_port> <advertiser_address> [<pcap|dot filename>]
 
