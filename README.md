@@ -26,7 +26,7 @@ This repository provides a framework that learns the behavioral model of a black
         - [CC2640R2](learning-results/pairing-procedure/cc2640r2.txt)
         - [CC2650](learning-results/pairing-procedure/cc2650.txt)
         - [CYW43455](learning-results/pairing-procedure/CYW43455.txt)
-    - [CYBLE-416045-02](learning-results/cyble-416045-02.txt)
+    - [CYBLE-416045-02](learning-results/CYBLE-416045-02.txt)
     - [nRF52832](learning-results/nRF52832.txt)
     - [CC2650](learning-results/CC2650.txt)
     - [CYW43455](learning-results/CYW43455.txt)
