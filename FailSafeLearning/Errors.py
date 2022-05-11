@@ -19,14 +19,6 @@ class NonDeterministicError(Error):
     def __init__(self):
         self.message = "Non-determinism in query execution detected."
 
-class TableError(Error):
-    """
-    Exception raised if non-deterministic behavior in query is detected
-    """
-
-    def __init__(self):
-        self.message = "Observation Table needs to be updated."
-
 class RepeatedNonDeterministicError(Error):
     """
     Exception raised if non-deterministic behavior in query is detected

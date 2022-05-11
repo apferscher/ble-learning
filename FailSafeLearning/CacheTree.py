@@ -1,5 +1,5 @@
 from statistics import mode
-from FailSafeLearning.Errors import NonDeterministicError, RepeatedNonDeterministicError, TableError
+from FailSafeLearning.Errors import NonDeterministicError, RepeatedNonDeterministicError
 
 class Node(object):
     def __init__(self, value=None):
@@ -22,7 +22,6 @@ class CacheTree:
     def __init__(self, max_cache_buffer_size):
         self.root_node = Node()
         self.curr_node = None
-        self.non_det_node = None
         self.inputs = []
         self.outputs = []
         self.non_corresponding_outputs = 0
@@ -50,10 +49,9 @@ class CacheTree:
         if inp is None:
             self.root_node.value = out
             return
-            
+
         if inp not in self.curr_node.children.keys():
             node = Node(out)
-            node.updateDetCache = True
             self.curr_node.children[inp] = node
         else:
             node = self.curr_node.children[inp]
@@ -77,9 +75,6 @@ class CacheTree:
                             print("Cached values: " + str(node.nonDetCache))
                             print("-"*80)
                             node.value = most_frequent_out
-                            raise TableError()
-                    else: 
-                       raise NonDeterministicError() 
                 else: 
                     raise NonDeterministicError()
             if node.value != out and node.nonDetUpdated and not node.updateDetCache:
@@ -92,7 +87,6 @@ class CacheTree:
                       f'Expected Output: {expected_seq}\n' \
                       f'Received output: {self.outputs}'
                 print(msg)
-                self.non_det_node = node
                 raise RepeatedNonDeterministicError()
         self.curr_node = node
 
