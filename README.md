@@ -64,15 +64,28 @@ This repository provides a framework that learns the behavioral model of a black
     sudo pip3 install -r requirements.txt
     ```
 
+Only required for the learning of the pairing procedure:
+
+4.  Installation of python3.9-dev:
+    ```bash
+    sudo apt-get install python3.9-dev
+    ```
+
+5. Installation of Security Manager interface:
+    ```bash
+    cd libs/smp_server/;sudo python3.9 setup.py install
+    ```
+
+
 ### Experiment Execution
 
-The learning procedure of a Bluetooth Low Energy (BLE) device can be executed via ([ble_learning.py](https://github.com/apferscher/ble-learning/blob/main/ble_learning.py)). The program requires the serial port name of the nRF52 device and the BLE address of the peripheral device (advertiser) that should be learned.
+The learning procedure for learning the connection procedure of a Bluetooth Low Energy (BLE) device can be executed via ([ble_learning.py](ble_learning.py)). If you want to start learning after the connection request execute [ble_learning_connecting_start.py](ble_learning_connecting_start.py) instead. The learning of the pairing procedure can be started with [ble_learning_pairing.py](ble_learning_pairing.py). All programs require the serial port name of the nRF52 device and the BLE address of the peripheral device (advertiser) that should be learned.
 
-    python3 ble_learning.py <serial_port> <advertiser_address>
+    python3 ble_learning.py <serial_port> <advertiser_address> [<pcap|dot filename>]
 
 Example:
 
-    python3 ble_learning.py /dev/ttyACM0 00:A0:50:00:00:03
+    python3 ble_learning.py /dev/ttyACM0 00:A0:50:00:00:03 
 
 The program outputs the learning results after a successful learning procedure and saves the learned model in the file ` LearnedModel.dot`. 
 
